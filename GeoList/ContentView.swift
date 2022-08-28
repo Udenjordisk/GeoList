@@ -140,8 +140,8 @@ struct AddTaskView: View {
                 .padding()
             
             Button {
-                print(selectedList)
-                //addTask()
+               
+                addTask()
             } label: {
                 HStack{
                     Image(systemName: "plus.app")
