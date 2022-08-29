@@ -9,21 +9,27 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    
     @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Lists.name, ascending: true)],
+        animation: .default)
+    var lists: FetchedResults<Lists>
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Tasks.name, ascending: true)],
         animation: .default)
-     var tasks: FetchedResults<Tasks>
+    var tasks: FetchedResults<Tasks>
     
-    @State var selectedHostList = "Дом"
+    @State private var selectedListIndex = 0
+    @State private var selectedHostList = "Дом"
     
     
     var body: some View {
         NavigationView {
             List {
                 ForEach(tasks) { task in
-                    if task.hostList == "Общие задачи"{
+                    if task.hostList == selectedHostList {
                     NavigationLink{
                         Text(task.name ?? "Нет значения")
                         Text(task.hostList!)
@@ -34,10 +40,23 @@ struct ContentView: View {
                 }
                 .onDelete(perform: deleteItems)
             }
-            .navigationTitle("Задачи")
+            .navigationTitle(selectedHostList)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                    Picker(selection: $selectedListIndex) {
+                        ForEach((0...lists.count - 1), id: \.self) { index in
+                            Text(lists[index].name!)
+                                .bold()
+                        }
+                    } label: {Text("") }
+                    .padding()
+                    .onChange(of: selectedListIndex, perform: { value in
+                                
+                        selectedHostList = lists[value].name!
+                        
+                            })
+                    
+                    
                         
                 }
                 ToolbarItem(placement: .navigationBarLeading){
@@ -138,7 +157,6 @@ struct AddTaskView: View {
                 .padding()
             
             Button {
-             
                 addTask()
             } label: {
                 HStack{
@@ -165,7 +183,7 @@ struct AddTaskView: View {
             let newTask = Tasks(context: viewContext)
             newTask.name = taskName
             
-            if selectedListName !=  ""{
+            if selectedListName !=  "" {
             newTask.hostList = selectedListName
             } else {
                 newTask.hostList = "Общие задачи"
