@@ -22,7 +22,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                //TODO: Понять, почему в AddTaskView selectedList не меняется
                 ForEach(tasks) { task in
                     if task.hostList == "Общие задачи"{
                     NavigationLink{
@@ -87,9 +86,8 @@ struct AddTaskView: View {
     
     
     @State private var taskName = ""
-    @State private var selectedList = ""
-    
-    
+    @State private var selectedListIndex = 0
+    @State private var selectedListName = ""
     
     var body: some View{
         
@@ -109,21 +107,21 @@ struct AddTaskView: View {
                 
                 Spacer()
                 
-                Picker(selection: $selectedList) {
-                    ForEach(lists) { list in
-                        Text(list.name!)
+                Picker(selection: $selectedListIndex) {
+                    ForEach((0...lists.count - 1), id: \.self) { index in
+                        Text(lists[index].name!)
                     }
-                } label: { }
+                } label: {Text("") }
                 .padding()
-
+                .onChange(of: selectedListIndex, perform: { value in
+                            
+                    selectedListName = lists[value].name!
+                    print(selectedListName)
+                        })
                 
-//
-//                Picker("", selection: $selectedList) {
-//                    ForEach(lists, id: \.self) { list in Text(list.name ?? "")}
-//
-//                }
-//                .padding()
-
+                
+                
+                
             }
             
             Spacer()
@@ -140,7 +138,7 @@ struct AddTaskView: View {
                 .padding()
             
             Button {
-               
+             
                 addTask()
             } label: {
                 HStack{
@@ -167,8 +165,8 @@ struct AddTaskView: View {
             let newTask = Tasks(context: viewContext)
             newTask.name = taskName
             
-            if selectedList != "" {
-            newTask.hostList = selectedList
+            if selectedListName !=  ""{
+            newTask.hostList = selectedListName
             } else {
                 newTask.hostList = "Общие задачи"
             }
