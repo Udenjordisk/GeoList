@@ -27,18 +27,47 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(tasks) { task in
-                    if task.hostList == selectedHostList {
-                    NavigationLink{
-                        Text(task.name ?? "Нет значения")
-                        Text(task.hostList!)
-                    } label: {
-                        Text(task.name ?? "Нет значения")
+            ZStack{
+                
+                
+                
+                List {
+                    ForEach(tasks) { task in
+                        if task.hostList == selectedHostList {
+                            NavigationLink{
+                                Text(task.name ?? "Нет значения")
+                                Text(task.hostList!)
+                            } label: {
+                                Text(task.name ?? "Нет значения")
+                            }
                         }
+                    }
+                    .onDelete(perform: deleteItems)
                 }
+                
+                
+                
+                VStack{
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        AddTaskView()
+                    } label: {
+                        HStack{
+                            Image(systemName: "plus.app")
+                            Text("Новая задача")
+                                .bold()
+                        }
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(.blue, in: Capsule())
+                    }
                 }
-                .onDelete(perform: deleteItems)
+                
+                
+                
+                
             }
             .navigationTitle(selectedHostList)
             .toolbar {
@@ -49,35 +78,30 @@ struct ContentView: View {
                                 .bold()
                         }
                     } label: {Text("") }
-                    .padding()
-                    .onChange(of: selectedListIndex, perform: { value in
-                                
-                        selectedHostList = lists[value].name!
-                        
-                            })
-                    
-                    
-                        
+                        .padding()
+                        .onChange(of: selectedListIndex, perform: { value in
+                            selectedHostList = lists[value].name!
+                        })
                 }
                 ToolbarItem(placement: .navigationBarLeading){
                     NavigationLink {
-                        AddTaskView()
+                        SettingsView()
                     } label: {
-                        Image(systemName: "plus")
+                        Image(systemName: "gearshape")
                     }
                 }
             }
             Text("Select an item")
-                
+            
         }
         .navigationViewStyle(.stack)
     }
     
-  
+    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { tasks[$0] }.forEach(viewContext.delete)
-
+            
             do {
                 try viewContext.save()
             } catch {
@@ -88,7 +112,45 @@ struct ContentView: View {
     }
 }
 
-
+struct SettingsView: View{
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Lists.name, ascending: true)],
+        animation: .default)
+    var lists: FetchedResults<Lists>
+    
+    var body: some View{
+        
+        List {
+            ForEach(lists) { list in
+                
+                    NavigationLink{
+                        Text(list.name ?? "Нет значения")
+                    } label: {
+                        Text(list.name ?? "Нет значения")
+                    }
+                
+            }
+            .onDelete(perform: deleteItems)
+        }
+       
+       
+            .navigationTitle("Мои списки")
+    }
+    
+    private func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { lists[$0] }.forEach(viewContext.delete)
+            
+            do {
+                try viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
+}
 
 struct AddTaskView: View {
     
