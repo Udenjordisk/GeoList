@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CoreData
-
+import MapKit
 
 
 
@@ -285,6 +285,14 @@ struct AddListView: View{
         animation: .default)
      var lists: FetchedResults<Lists>
     
+    @StateObject private var locationManager = LocationManager()
+
+    var coordinates: CLLocationCoordinate2D?  {
+        guard let coordinates = locationManager.location?.coordinate else {
+            return nil
+        }
+        return coordinates
+    }
     
     @State var listName: String = ""
     @State var addGeo: Bool = false
@@ -328,10 +336,23 @@ struct AddListView: View{
     private func addList () {
         withAnimation {
             
+            
+            
+         
+            
+            
             guard listName != "" else { return }
+            
             
             let newList = Lists(context: viewContext)
             newList.name = listName
+            if addGeo {
+                newList.latitude = coordinates!.latitude
+                newList.longitude = coordinates!.longitude
+                newList.useGeoposition = true
+                print(newList.longitude, newList.latitude)
+            }
+            
             listName = ""
             
             do {
@@ -352,3 +373,47 @@ struct ContentView_Previews: PreviewProvider {
         AddTaskView()
     }
 }
+
+
+
+struct MapWithUserLocation: View {
+    
+    @StateObject private var locationManager = LocationManager()
+    
+    var region: Binding<MKCoordinateRegion>? {
+        guard let location = locationManager.location else {
+            return MKCoordinateRegion.goldenGateRegion().getBinding()
+        }
+        
+        let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        
+        return region.getBinding()
+    }
+    
+    var body: some View {
+        if let region = region {
+            Map(coordinateRegion: region, interactionModes: .all, showsUserLocation: true, userTrackingMode: .constant(.follow))
+                .ignoresSafeArea()
+            
+        }
+    }
+}
+struct MapWithUserLocation_Previews: PreviewProvider {
+    static var previews: some View {
+        MapWithUserLocation()
+    }
+}
+
+
+
+extension MKCoordinateRegion {
+    
+    static func goldenGateRegion() -> MKCoordinateRegion {
+        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.819527098978355, longitude:  -122.47854602016669), latitudinalMeters: 5000, longitudinalMeters: 5000)
+    }
+    
+    func getBinding() -> Binding<MKCoordinateRegion>? {
+        return Binding<MKCoordinateRegion>(.constant(self))
+    }
+}
+

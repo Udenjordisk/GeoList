@@ -13,7 +13,7 @@
 		50F554AB28BB497D00822851 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50F554AA28BB497D00822851 /* Preview Assets.xcassets */; };
 		50F554AD28BB497D00822851 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F554AC28BB497D00822851 /* Persistence.swift */; };
 		50F554B028BB497D00822851 /* GeoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50F554AE28BB497D00822851 /* GeoList.xcdatamodeld */; };
-		50F554B728BB4EFB00822851 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F554B628BB4EFB00822851 /* File.swift */; };
+		50F554B728BB4EFB00822851 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F554B628BB4EFB00822851 /* Location.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +24,7 @@
 		50F554AA28BB497D00822851 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		50F554AC28BB497D00822851 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		50F554AF28BB497D00822851 /* GeoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GeoList.xcdatamodel; sourceTree = "<group>"; };
-		50F554B628BB4EFB00822851 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		50F554B628BB4EFB00822851 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 				50F554AC28BB497D00822851 /* Persistence.swift */,
 				50F554AE28BB497D00822851 /* GeoList.xcdatamodeld */,
 				50F554A928BB497D00822851 /* Preview Content */,
-				50F554B628BB4EFB00822851 /* File.swift */,
+				50F554B628BB4EFB00822851 /* Location.swift */,
 			);
 			path = GeoList;
 			sourceTree = "<group>";
@@ -146,7 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50F554B728BB4EFB00822851 /* File.swift in Sources */,
+				50F554B728BB4EFB00822851 /* Location.swift in Sources */,
 				50F554AD28BB497D00822851 /* Persistence.swift in Sources */,
 				50F554A628BB497B00822851 /* ContentView.swift in Sources */,
 				50F554A428BB497B00822851 /* GeoListApp.swift in Sources */,
@@ -282,6 +282,7 @@
 				DEVELOPMENT_TEAM = ZF9YFRTD7G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location to show user lists";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -311,6 +312,7 @@
 				DEVELOPMENT_TEAM = ZF9YFRTD7G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location to show user lists";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
