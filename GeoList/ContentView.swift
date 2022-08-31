@@ -8,6 +8,10 @@
 import SwiftUI
 import CoreData
 
+
+
+
+//MARK: Main View
 struct ContentView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -33,6 +37,8 @@ struct ContentView: View {
                 
                 List {
                     ForEach(tasks) { task in
+                        
+                        //FIXME: incorrect display on list "Дом"
                         if task.hostList == selectedHostList {
                             NavigationLink{
                                 Text(task.name ?? "Нет значения")
@@ -97,7 +103,6 @@ struct ContentView: View {
         .navigationViewStyle(.stack)
     }
     
-    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { tasks[$0] }.forEach(viewContext.delete)
@@ -111,6 +116,10 @@ struct ContentView: View {
         }
     }
 }
+
+
+
+//MARK: Settings
 
 struct SettingsView: View{
     @Environment(\.managedObjectContext) private var viewContext
@@ -152,6 +161,8 @@ struct SettingsView: View{
     }
 }
 
+
+//MARK: Add new task
 struct AddTaskView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -262,6 +273,7 @@ struct AddTaskView: View {
     }
 }
 
+//MARK: Add new list
 
 struct AddListView: View{
     
