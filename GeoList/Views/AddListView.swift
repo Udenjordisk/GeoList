@@ -11,7 +11,6 @@ import MapKit
 
 struct AddListView: View{
     
-    
     @Environment(\.managedObjectContext)  var viewContext
     
     @FetchRequest(
@@ -36,15 +35,15 @@ struct AddListView: View{
     var body: some View{
         VStack{
             VStack{
-            Image(systemName: "doc.circle.fill")
-                .resizable()
-                .frame(width: 150.0, height: 150.0)
-                .opacity(0.1)
+                Image(systemName: "doc.circle.fill")
+                    .resizable()
+                    .frame(width: 150.0, height: 150.0)
+                    .opacity(0.1)
                 Text("«Думайте на бумаге. Каждая минута, затраченная на планирование,\nэкономит 10 минут при осуществлении плана.»")
                     .foregroundColor(Color.secondary)
                     .padding()
             }
-        TextField("Например: тренажёрный зал",text: $listName)
+            TextField("Например: тренажёрный зал",text: $listName)
                 .textFieldStyle(.roundedBorder)
                 .padding()
             Toggle("Использовать геопозицию", isOn: $addGeo)
@@ -63,9 +62,9 @@ struct AddListView: View{
                 .background(.blue, in: Capsule())
             }
             .padding()
-
-
-
+            
+            
+            
         }.navigationTitle("Новый список")
     }
     
@@ -73,21 +72,16 @@ struct AddListView: View{
         withAnimation {
             
             guard listName != "" else { return }
-            
-            
+            //Save list
             let newList = Lists(context: viewContext)
             newList.name = listName
-            if addGeo {
-               
-                newList.latitude = coordinates!.latitude
-                newList.longitude = coordinates!.longitude
-                newList.useGeoposition = true
-                print(newList.longitude, newList.latitude)
-
-
-
-                
-            }
+            //If we have geoposition - we save geoposition
+                if addGeo {
+                        newList.latitude = coordinates!.latitude
+                        newList.longitude = coordinates!.longitude
+                        newList.useGeoposition = true
+                        print(newList.longitude, newList.latitude)
+                         }
             
             listName = ""
             
@@ -99,6 +93,5 @@ struct AddListView: View{
             }
         }
     }
-    
     
 }

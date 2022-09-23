@@ -13,30 +13,29 @@ import MapKit
 
 //MARK: Main View
 struct ContentView: View {
+
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Lists.name, ascending: true)],
+        animation: .default)
+    private var lists: FetchedResults<Lists>
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Tasks.name, ascending: true)],
+        animation: .default)
+    private var tasks: FetchedResults<Tasks>
+    
+    @State private var selectedListIndex = 0
+    @State private var selectedHostList = "Общие дела"
     
     @StateObject private var locationManager = LocationManager()
-
+    
     private var coordinates: CLLocationCoordinate2D?  {
         guard let coordinates = locationManager.location?.coordinate else {
             return nil
         }
         return coordinates
     }
-    
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Lists.name, ascending: true)],
-        animation: .default)
-    var lists: FetchedResults<Lists>
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Tasks.name, ascending: true)],
-        animation: .default)
-    var tasks: FetchedResults<Tasks>
-    
-    @State private var selectedListIndex = 0
-    @State private var selectedHostList = "Общие дела"
-//    @State private var location = ""
     
     var body: some View {
         NavigationView {
@@ -46,13 +45,15 @@ struct ContentView: View {
                 
                 List {
                     ForEach(tasks) { task in
-                        
                         //FIXME: incorrect display on list "Дом"
+                        //Tasks for selected list
                         if task.hostList == selectedHostList {
                             NavigationLink{
+                                //TODO: Link to detail description
                                 Text(task.name ?? "Нет значения")
                                 Text(task.hostList!)
                             } label: {
+                                //Task name
                                 Text(task.name ?? "Нет значения")
                             }
                         }
@@ -60,17 +61,15 @@ struct ContentView: View {
                     .onDelete(perform: deleteItems)
                 }
                 
-                
-                
                 VStack{
-                    
-//                    if let coordinates = coordinates {
-//                        Text(String(coordinates.latitude))
-//                    }
 //
+//            if let coordinates = coordinates {
+//                Text(String(coordinates.latitude))
+//            }
                     
                     Spacer()
                     
+                    //Add task button
                     NavigationLink {
                         AddTaskView()
                     } label: {
@@ -84,17 +83,15 @@ struct ContentView: View {
                         .background(.blue, in: Capsule())
                     }
                 }
-                
-                
-                
-                
             }
+            //Select current list as navigation title
             .navigationTitle(selectedHostList).onAppear(perform: {
-                checkLocation()
+                // checkLocation()
             })
             
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
+                    //Select lists picker
                     Picker(selection: $selectedListIndex) {
                         ForEach((0...lists.count - 1), id: \.self) { index in
                             Text(lists[index].name!)
@@ -107,6 +104,7 @@ struct ContentView: View {
                         })
                 }
                 ToolbarItem(placement: .navigationBarLeading){
+                    //Settings button
                     NavigationLink {
                         SettingsView()
                     } label: {
@@ -114,16 +112,15 @@ struct ContentView: View {
                     }
                 }
             }
-            Text("Select an item")
-            
-        }
-        .navigationViewStyle(.stack)
+        Text("Select an item")
     }
+        .navigationViewStyle(.stack)
+}
     
+    //Delete from CoreData
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { tasks[$0] }.forEach(viewContext.delete)
-            
             do {
                 try viewContext.save()
             } catch {
@@ -132,49 +129,26 @@ struct ContentView: View {
             }
         }
     }
+
     
+    //If among the sheets there is one that is in the current coordinates.
     private func checkLocation() -> some View{
         //If we have permission to check location
         if let coordinates = coordinates {
-            
+            //Check all lists
             for list in lists{
-                
+                //Check coordinates
                 if list.latitude == coordinates.latitude && list.longitude == coordinates.longitude {
+                    //Select this list
                     selectedHostList = list.name!
                 }
-                
             }
         }
-        
+        //Func must return some View
         return EmptyView()
     }
-    
- 
-    
-    
 }
 
-//
-//struct LaunchScreenView: View{
-//
-//
-//    var body: some View{
-//        Text("Loading...\nPlease wait")
-//            .onAppear{
-//                sleep(3)
-//
-//            }
-//
-//    }
-//
-//}
 
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        AddTaskView()
-    }
-}
 
 

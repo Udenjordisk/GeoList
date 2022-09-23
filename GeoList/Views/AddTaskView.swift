@@ -29,53 +29,51 @@ struct AddTaskView: View {
     @State private var selectedListName = ""
     
     var body: some View{
-        
         VStack{
-            
             HStack{
-            NavigationLink {
-                AddListView()
-            } label: {
-                HStack{
-                    Image(systemName: "plus")
-                    Image(systemName: "doc")
-                    Text("Новый список")
+                NavigationLink {
+                    AddListView()
+                } label: {
+                    HStack{
+                        Image(systemName: "plus")
+                        Image(systemName: "doc")
+                        Text("Новый список")
+                    }
                 }
-            }
-            .padding()
+                .padding()
                 
                 Spacer()
-                
+                //Select list to save task
                 Picker(selection: $selectedListIndex) {
                     ForEach((0...lists.count - 1), id: \.self) { index in
                         Text(lists[index].name!)
                     }
-                } label: {Text("") }
+                } label: {
+                    Text("")
+                }
                 .padding()
                 .onChange(of: selectedListIndex, perform: { value in
-                            
+                    
                     selectedListName = lists[value].name!
                     print(selectedListName)
-                        })
-                
-                
-                
-                
+                    
+                })
             }
             
             Spacer()
-            
+            //Background book image
             Image(systemName: "book.circle.fill")
                 .resizable()
                 .frame(width: 150.0, height: 150.0)
                 .opacity(0.1)
+            //Motivation text
                 Text("«Любую задачу реально выполнить,\nесли разбить ее на выполнимые части.»")
                 .foregroundColor(Color.secondary)
-            
+            //Task name textfield
             TextField("Например: Купить продукты",text: $taskName)
                 .textFieldStyle(.roundedBorder)
                 .padding()
-            
+            //Add task button
             Button {
                 addTask()
             } label: {
@@ -96,8 +94,9 @@ struct AddTaskView: View {
     }
     
     private func addTask() {
-        withAnimation {
             
+        //Save task with name and host list
+        
             guard taskName != "" else { return }
             
             let newTask = Tasks(context: viewContext)
@@ -117,5 +116,5 @@ struct AddTaskView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-    }
+    
 }
