@@ -13,6 +13,7 @@ struct GeoListApp: App {
 
     var body: some Scene {
         WindowGroup {
+            //LaunchScreenView()
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

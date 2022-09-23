@@ -15,7 +15,7 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
             let newTask = Tasks(context: viewContext)
-            newTask.name = "Задача1"
+            newTask.name = "Задача"
         }
         do {
             try viewContext.save()

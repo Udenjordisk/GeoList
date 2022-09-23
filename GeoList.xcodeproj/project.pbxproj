@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50B4F42F28DDA65C007B817E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4F42E28DDA65C007B817E /* SettingsView.swift */; };
+		50B4F43128DDA68E007B817E /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4F43028DDA68E007B817E /* AddTaskView.swift */; };
+		50B4F43328DDA6D8007B817E /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4F43228DDA6D8007B817E /* AddListView.swift */; };
 		50F554A428BB497B00822851 /* GeoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F554A328BB497B00822851 /* GeoListApp.swift */; };
 		50F554A628BB497B00822851 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F554A528BB497B00822851 /* ContentView.swift */; };
 		50F554A828BB497D00822851 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50F554A728BB497D00822851 /* Assets.xcassets */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50B4F42E28DDA65C007B817E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		50B4F43028DDA68E007B817E /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		50B4F43228DDA6D8007B817E /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
 		50F554A028BB497B00822851 /* GeoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50F554A328BB497B00822851 /* GeoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoListApp.swift; sourceTree = "<group>"; };
 		50F554A528BB497B00822851 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +65,9 @@
 			children = (
 				50F554A328BB497B00822851 /* GeoListApp.swift */,
 				50F554A528BB497B00822851 /* ContentView.swift */,
+				50B4F42E28DDA65C007B817E /* SettingsView.swift */,
+				50B4F43228DDA6D8007B817E /* AddListView.swift */,
+				50B4F43028DDA68E007B817E /* AddTaskView.swift */,
 				50F554A728BB497D00822851 /* Assets.xcassets */,
 				50F554AC28BB497D00822851 /* Persistence.swift */,
 				50F554AE28BB497D00822851 /* GeoList.xcdatamodeld */,
@@ -147,8 +156,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				50F554B728BB4EFB00822851 /* Location.swift in Sources */,
+				50B4F43128DDA68E007B817E /* AddTaskView.swift in Sources */,
 				50F554AD28BB497D00822851 /* Persistence.swift in Sources */,
 				50F554A628BB497B00822851 /* ContentView.swift in Sources */,
+				50B4F43328DDA6D8007B817E /* AddListView.swift in Sources */,
+				50B4F42F28DDA65C007B817E /* SettingsView.swift in Sources */,
 				50F554A428BB497B00822851 /* GeoListApp.swift in Sources */,
 				50F554B028BB497D00822851 /* GeoList.xcdatamodeld in Sources */,
 			);
